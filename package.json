@@ -20,6 +20,7 @@
 		"@emotion/react": "^11.11.1",
 		"@emotion/styled": "^11.11.0",
 		"@reduxjs/toolkit": "^1.9.7",
+		"@storybook/addon-themes": "^7.4.6",
 		"axios": "^1.5.1",
 		"eslint-config-next": "13.4.19",
 		"framer-motion": "^10.16.4",
@@ -33,6 +34,7 @@
 		"styled-media-query": "^2.1.2"
 	},
 	"devDependencies": {
+		"@chakra-ui/storybook-addon": "^5.0.1",
 		"@storybook/addon-essentials": "^7.4.1",
 		"@storybook/addon-interactions": "^7.4.1",
 		"@storybook/addon-links": "^7.4.1",

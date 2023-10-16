@@ -1,11 +1,19 @@
-import React from 'react'
-import { GlobalStyles } from '../src/styles'
+import { withThemeFromJSXProvider } from '@storybook/addon-themes';
+import { ThemeProvider } from 'styled-components';
+import { GlobalStyles, theme } from '../src/styles'
 
 export const decorators = [
-	(Story) => (
-		<>
-			<GlobalStyles />
-			<Story />
-		</>
-	)
-]
+	withThemeFromJSXProvider({
+		themes: {
+			light: theme,
+		},
+		GlobalStyles,
+		Provider: ThemeProvider,
+	}),
+];
+
+export const parameters = {
+	chakra: {
+		theme,
+	},
+}

@@ -1,13 +1,16 @@
 const config = {
 	staticDirs: ['../public'],
 	stories: ['../src/components/**/*.stories.tsx'],
-	addons: ['@storybook/addon-essentials'],
+	addons: ['@storybook/addon-essentials', '@chakra-ui/storybook-addon'],
 	framework: {
 		name: '@storybook/nextjs',
 		options: {}
 	},
 	docs: {
 		autodocs: true
+	},
+	features: {
+		emotionAlias: false,
 	},
 	webpackFinal: (config) => {
 		config.resolve.modules.push(`${process.cwd()}/src`)
