@@ -3,11 +3,11 @@
 import React from 'react'
 import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, useMediaQuery } from '@chakra-ui/react'
 import { FiAlertOctagon } from 'react-icons/fi'
+import { darken } from 'polished'
 
 import { ModalConfirmProps } from './types'
 import * as S from './styles'
 import { theme } from '../../styles'
-import { darken } from 'polished'
 
 export const ModalConfirm = ({ name, isOpen }: ModalConfirmProps) => {
 
