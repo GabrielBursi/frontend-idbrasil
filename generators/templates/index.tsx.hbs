@@ -1,0 +1,24 @@
+{{#if useProps}}
+import React from 'react'
+import { {{pascalCase name}}Props } from './types'
+import * as S from './styles'
+
+export const {{pascalCase name}} = ({ }: {{pascalCase name}}Props) => {
+    return (
+        <S.{{pascalCase name}}>
+            <h1>{{pascalCase name}}</h1>
+        </S.{{pascalCase name}}>
+    )
+}
+{{else}}
+import React from 'react'
+import * as S from './styles'
+
+export const {{pascalCase name}} = () => {
+    return (
+        <S.{{pascalCase name}}>
+            <h1>{{pascalCase name}}</h1>
+        </S.{{pascalCase name}}>
+    )
+}
+{{/if}}
