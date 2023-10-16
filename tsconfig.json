@@ -22,7 +22,7 @@
       "@/*": ["./src/*"]
     },
 		"forceConsistentCasingInFileNames": true,
-		"types": ["node", "jest", "@testing-library/jest-dom"],
+		"types": ["node", "jest"],
   },
   "include": [".jest/setup.ts", "next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"],
