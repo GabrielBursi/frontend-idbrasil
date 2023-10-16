@@ -1,7 +1,7 @@
-import { Main } from "@/components";
+import { PaginaInicial } from "@/templates";
 
 export default function Home() {
 	return (
-		<Main/>
+		<PaginaInicial/>
 	)
 }
