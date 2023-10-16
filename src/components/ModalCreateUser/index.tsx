@@ -1,13 +1,14 @@
 'use client'
 
-import React from 'react'
-import { Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, useMediaQuery } from '@chakra-ui/react'
+import React, { useEffect } from 'react'
+import { Button, FormControl, FormErrorMessage, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, useMediaQuery } from '@chakra-ui/react'
 import { PiPlusBold } from 'react-icons/pi'
 import { darken } from 'polished'
 
 import { ModalCreateUserProps } from './types'
 import * as S from './styles'
 import { theme } from '../../styles'
+import { CreateUserData, useCreateUser } from '../../hooks'
 
 export const ModalCreateUser = ({ isOpen }: ModalCreateUserProps) => {
 
@@ -17,6 +18,17 @@ export const ModalCreateUser = ({ isOpen }: ModalCreateUserProps) => {
 		fallback: false
 	})
 
+	const { handleSubmit, register, hasErrors, isSubmitting, errors, reset, clearErrors, formRef } = useCreateUser()
+
+	useEffect(() => {
+		clearErrors()
+		reset()
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isOpen]);
+
+	const onSubmit = (data: CreateUserData) => {
+		console.log(data)
+	}
 
     return (
 		<Modal
@@ -38,8 +50,8 @@ export const ModalCreateUser = ({ isOpen }: ModalCreateUserProps) => {
 				</ModalHeader>
 				<ModalCloseButton color={theme.colors.primary} onClick={onClose} />
 				<ModalBody>
-					<S.Form>
-						<FormControl isRequired>
+					<S.Form onSubmit={handleSubmit(onSubmit)} ref={formRef}>
+						<FormControl isRequired isInvalid={!!errors.name}>
 							<FormLabel
 								color={theme.colors.primaryText}
 								fontSize={theme.font.sizes.small}
@@ -48,7 +60,6 @@ export const ModalCreateUser = ({ isOpen }: ModalCreateUserProps) => {
 							</FormLabel>
 							<Input 
 								type='text' 
-								name='nome' 
 								id='nome' 
 								placeholder='Nome Sobrenome' 
 								fontSize={theme.font.sizes.medium}
@@ -56,9 +67,19 @@ export const ModalCreateUser = ({ isOpen }: ModalCreateUserProps) => {
 								paddingY={theme.spacings.xsmall}
 								focusBorderColor={theme.colors.primary}
 								autoComplete='off'
+								autoFocus
+								{...register('name')}
+								onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    formRef.current!.dispatchEvent(
+                                        new Event("submit", { cancelable: true, bubbles: true })
+                                    );
+                                }
+                            }}
 							/>
+							{errors.name?.message && <FormErrorMessage>{errors.name.message}</FormErrorMessage>}
 						</FormControl>
-						<FormControl isRequired>
+						<FormControl isRequired isInvalid={!!errors.cpf}>
 							<FormLabel
 								color={theme.colors.primaryText}
 								fontSize={theme.font.sizes.small}
@@ -67,17 +88,26 @@ export const ModalCreateUser = ({ isOpen }: ModalCreateUserProps) => {
 							</FormLabel>
 							<Input 
 								type='text' 
-								name='cpf' 
 								id='cpf' 
+								maxLength={15}
 								placeholder='xxx.xxx.xxx-xx' 
 								fontSize={theme.font.sizes.medium}
 								color={theme.colors.primaryText}
 								paddingY={theme.spacings.xsmall}
 								focusBorderColor={theme.colors.primary}
 								autoComplete='off'
+								{...register('cpf')}
+								onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    formRef.current!.dispatchEvent(
+                                        new Event("submit", { cancelable: true, bubbles: true })
+                                    );
+                                }
+                            }}
 							/>
+							{errors.cpf?.message && <FormErrorMessage>{errors.cpf.message}</FormErrorMessage>}
 						</FormControl>
-						<FormControl isRequired>
+						<FormControl isRequired isInvalid={!!errors.celular}>
 							<FormLabel
 								color={theme.colors.primaryText}
 								fontSize={theme.font.sizes.small}
@@ -86,22 +116,30 @@ export const ModalCreateUser = ({ isOpen }: ModalCreateUserProps) => {
 							</FormLabel>
 							<Input 
 								type='text' 
-								name='celular' 
 								id='celular' 
 								placeholder='(xx) xxxxx-xxxx' 
+								maxLength={12}
 								fontSize={theme.font.sizes.medium}
 								color={theme.colors.primaryText}
 								paddingY={theme.spacings.xsmall}
 								focusBorderColor={theme.colors.primary}
 								autoComplete='off'
+								{...register('celular')}
+								onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    formRef.current!.dispatchEvent(
+                                        new Event("submit", { cancelable: true, bubbles: true })
+                                    );
+                                }
+                            }}
 							/>
+							{errors.celular?.message && <FormErrorMessage>{errors.celular.message}</FormErrorMessage>}
 						</FormControl>
 					</S.Form>
 				</ModalBody>
 
 				<ModalFooter>
 					<Button
-						onClick={onClose}
 						paddingY={theme.spacings.xsmall}
 						variant='solid'
 						backgroundColor={theme.colors.primary}
@@ -109,11 +147,20 @@ export const ModalCreateUser = ({ isOpen }: ModalCreateUserProps) => {
 						fontSize={isMobile ? theme.font.sizes.small : theme.font.sizes.medium}
 						borderColor={theme.colors.primary}
 						leftIcon={<PiPlusBold />}
+						disabled={hasErrors}
+						isLoading={isSubmitting}
+						type='submit'
+						w='100%'
 						_hover={{
 							backgroundColor: darken(0.1, theme.colors.primary),
 							color: theme.colors.primaryText
 						}}
-						w='100%'
+						onClick={() => {
+							formRef.current!.dispatchEvent(
+								new Event("submit", { cancelable: true, bubbles: true })
+							);
+							onClose()
+						}}
 					>
 						Adicionar Pessoa
 					</Button>
