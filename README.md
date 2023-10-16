@@ -12,6 +12,8 @@ A fim de garantir a qualidade e robustez do código, implementei testes utilizan
 
 Para a documentação e visualização dos componentes, integrei o Storybook, permitindo uma fácil navegação e interação com os elementos do projeto.
 
+Você pode acessar o repositório no GitHub desse template [por aqui](https://github.com/GabrielBursi/boilerplate-next-approuter).
+
 ## Como usar
 
 1. Digite no terminal o seguinte comando:
