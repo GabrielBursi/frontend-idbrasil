@@ -5,19 +5,17 @@ import { PiPlusBold } from 'react-icons/pi'
 import { darken } from 'polished'
 
 import * as S from './styles'
+import { ListagemProps } from './types'
 
 import { Container, FilterInput, UsersList } from '@/components'
 import { theme } from '@/styles'
-import { usersMock } from '@/components/UsersList/mock'
 
-export const Listagem = () => {
+export const Listagem = ({ isLoading, users }: ListagemProps) => {
 
 	const [isMobile] = useMediaQuery('(max-width: 768px)', {
 		ssr: true,
 		fallback: false
 	})
-
-	const users = usersMock
 
 	return (
 		<S.Listagem>
@@ -28,7 +26,7 @@ export const Listagem = () => {
 			</S.Banner>
 			<Container>
 				<FilterInput />
-				<UsersList users={users} />
+				<UsersList users={users} isLoading={isLoading}/>
 				<S.Centralize>
 					<S.TotalText>
 						Total de pessoas cadastradas: <S.TotalUsers>{users.length}</S.TotalUsers>

@@ -1,5 +1,6 @@
 import { User } from "@/types"
 
 export type UsersListProps = {
-    users: User[]
+    users: User[];
+	isLoading: boolean;
 }

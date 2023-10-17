@@ -37,3 +37,10 @@ export const Empty: Story = {
 		users: []
 	}
 }
+
+export const Loading: Story = {
+	args: {
+		users: [],
+		isLoading: true
+	}
+}
