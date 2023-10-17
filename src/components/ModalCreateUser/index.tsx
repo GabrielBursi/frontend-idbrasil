@@ -14,8 +14,8 @@ import {
 	ModalFooter,
 	ModalHeader,
 	ModalOverlay,
-	useDisclosure,
-	useMediaQuery
+	useMediaQuery,
+	useToast
 } from '@chakra-ui/react'
 import { PiPlusBold } from 'react-icons/pi'
 import { darken } from 'polished'
@@ -24,14 +24,16 @@ import { ModalCreateUserProps } from './types'
 import * as S from './styles'
 import { theme } from '../../styles'
 import { CreateUserData, useCreateUser } from '../../hooks'
+import { UserServices } from '@/api/services'
 
-export const ModalCreateUser = ({ isOpen }: ModalCreateUserProps) => {
+export const ModalCreateUser = ({ isOpen, onClose }: ModalCreateUserProps) => {
 
-	const { onClose } = useDisclosure()
 	const [isMobile] = useMediaQuery('(max-width: 768px)', {
 		ssr: true,
 		fallback: false
 	})
+
+	const toast = useToast()
 
 	const { handleSubmit, register, hasErrors, isSubmitting, errors, reset, clearErrors, formRef } = useCreateUser()
 
@@ -41,8 +43,31 @@ export const ModalCreateUser = ({ isOpen }: ModalCreateUserProps) => {
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isOpen]);
 
-	const onSubmit = (data: CreateUserData) => {
-		console.log(data)
+	const onSubmit = async (data: CreateUserData) => {
+
+		const newUser = await UserServices.Create({ cpf: data.cpf, ativo: true, nome: data.name, telefone: data.celular })
+
+		if(newUser instanceof Error){
+			toast({
+				title: 'Ocorreu algum erro ao tentar criar pessoa.',
+				description: `${newUser.message}`,
+				status: 'error',
+				duration: 5000,
+				isClosable: true,
+				position: 'top-right'
+			})
+			return
+		}
+
+		toast({
+			title: 'Pessoa criada com sucesso.',
+			description: `${newUser.nome} - ${newUser.cpf}`,
+			status: 'success',
+			duration: 5000,
+			isClosable: true,
+			position: 'top-right'
+		})
+		onClose()
 	}
 
     return (
@@ -173,7 +198,6 @@ export const ModalCreateUser = ({ isOpen }: ModalCreateUserProps) => {
 							formRef.current!.dispatchEvent(
 								new Event("submit", { cancelable: true, bubbles: true })
 							);
-							onClose()
 						}}
 					>
 						Adicionar Pessoa

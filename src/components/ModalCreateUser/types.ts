@@ -1,3 +1,4 @@
 export type ModalCreateUserProps = {
-    isOpen: boolean
+	isOpen: boolean;
+	onClose: () => void;
 }
