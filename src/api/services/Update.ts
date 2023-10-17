@@ -2,7 +2,7 @@ import { AxiosError } from "axios";
 import { Api } from "../config";
 import { User } from "@/types";
 
-export const Update = async (id: number, user: Partial<Omit<User, 'id'>>): Promise<void | Error> => {
+export const Update = async (id: number, user: Partial<Omit<User, 'id' | 'ativo'>>): Promise<void | Error> => {
 	try {
 		await Api.put(`/pessoa/${id}`, { ...user })
 	} catch (error) {

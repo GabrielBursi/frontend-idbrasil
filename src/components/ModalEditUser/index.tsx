@@ -14,48 +14,71 @@ import {
 	ModalFooter,
 	ModalHeader,
 	ModalOverlay,
-	useDisclosure,
 	useMediaQuery,
 	Skeleton,
 	Stack,
 	Badge,
 	RadioGroup,
-	Radio
+	Radio,
+	useToast
 } from '@chakra-ui/react'
 import { darken, lighten } from 'polished'
 
 import { ModalEditUserProps } from './types'
 import * as S from './styles'
 import { theme } from '../../styles'
-import { EditUserData, useEditUser } from '../../hooks'
+import { EditUserData, Status, useEditUser } from '../../hooks'
+import { UserServices } from '@/api/services'
 
-export const ModalEditUser = ({ user, isLoading = false, isOpen }: ModalEditUserProps) => {
+export const ModalEditUser = ({ user, isLoading = false, isOpen, onClose }: ModalEditUserProps) => {
 
-	const { onClose } = useDisclosure()
 	const [isMobile] = useMediaQuery('(max-width: 768px)', {
 		ssr: true,
 		fallback: false
 	})
+
+	const toast = useToast()
 
 	const { handleSubmit, register, hasErrors, isSubmitting, errors, reset, clearErrors, formRef, setValue } = useEditUser()
 
 	useEffect(() => {
 		clearErrors()
 		reset()
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isOpen]);
-
-	useEffect(() => {
-		if (user) {
+		if(user){
 			setValue('name', user.nome)
 			setValue('cpf', user.cpf)
 			setValue('celular', user.telefone)
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [user]);
+	}, [isOpen]);
 
-	const onSubmit = (data: EditUserData) => {
-		console.log(data)
+	const onSubmit = async (data: EditUserData) => {
+		const [userUpdated, userStatusUpdated] = await Promise.all([
+			UserServices.Update(user!.id, { cpf: data.cpf, nome: data.name, telefone: data.celular }),
+			UserServices.UpdateStatus(user!.id, { ativo: data.ativo === Status.ativar}),
+		])
+
+		if (userUpdated instanceof Error || userStatusUpdated instanceof Error) {
+			toast({
+				title: 'Ocorreu algum erro ao tentar editar pessoa.',
+				description: `${userUpdated?.message ?? userStatusUpdated?.message}`,
+				status: 'error',
+				duration: 5000,
+				isClosable: true,
+				position: 'top-right'
+			})
+			return
+		}
+
+		toast({
+			title: 'Pessoa editada com sucesso.',
+			status: 'success',
+			duration: 5000,
+			isClosable: true,
+			position: 'top-right'
+		})
+
+		onClose()
 	}
 
 	return (
@@ -241,7 +264,7 @@ export const ModalEditUser = ({ user, isLoading = false, isOpen }: ModalEditUser
 						borderColor={theme.colors.primary}
 						disabled={hasErrors || isLoading || !user}
 						isLoading={isSubmitting}
-						type='submit'
+						type='button'
 						w='100%'
 						_hover={{
 							backgroundColor: darken(0.1, theme.colors.primary),
@@ -251,7 +274,6 @@ export const ModalEditUser = ({ user, isLoading = false, isOpen }: ModalEditUser
 							formRef.current!.dispatchEvent(
 								new Event("submit", { cancelable: true, bubbles: true })
 							);
-							onClose()
 						}}
 					>
 						Confirmar
