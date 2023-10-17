@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 import { GlobalStyles, theme } from '../styles'
 import StyledComponentsRegistry from '../lib/registry'
+import { UsersContextProvider } from '@/context'
 
 export function Providers({ children }: PropsWithChildren) {
 
@@ -18,12 +19,14 @@ export function Providers({ children }: PropsWithChildren) {
 			<QueryClientProvider client={queryClient}>
 				<CacheProvider>
 					<ChakraProvider>
-						<GlobalStyles />
-						<StyledComponentsRegistry>
-							<ThemeProvider theme={theme}>
-								{children}
-							</ThemeProvider>
-						</StyledComponentsRegistry>
+						<UsersContextProvider>
+							<GlobalStyles />
+							<StyledComponentsRegistry>
+								<ThemeProvider theme={theme}>
+									{children}
+								</ThemeProvider>
+							</StyledComponentsRegistry>
+						</UsersContextProvider>
 					</ChakraProvider>
 				</CacheProvider>
 			</QueryClientProvider>

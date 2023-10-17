@@ -40,14 +40,14 @@ export const ModalCreateUser = ({ isOpen, onClose }: ModalCreateUserProps) => {
 	useEffect(() => {
 		clearErrors()
 		reset()
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isOpen]);
 
 	const onSubmit = async (data: CreateUserData) => {
 
 		const newUser = await UserServices.Create({ cpf: data.cpf, ativo: true, nome: data.name, telefone: data.celular })
 
-		if(newUser instanceof Error){
+		if (newUser instanceof Error) {
 			toast({
 				title: 'Ocorreu algum erro ao tentar criar pessoa.',
 				description: `${newUser.message}`,
@@ -70,7 +70,7 @@ export const ModalCreateUser = ({ isOpen, onClose }: ModalCreateUserProps) => {
 		onClose()
 	}
 
-    return (
+	return (
 		<Modal
 			isOpen={isOpen}
 			onClose={onClose}
@@ -87,7 +87,7 @@ export const ModalCreateUser = ({ isOpen, onClose }: ModalCreateUserProps) => {
 						Adicionar Pessoa
 					</S.Title>
 				</ModalHeader>
-				<ModalCloseButton color={theme.colors.primary} onClick={onClose} size='lg'/>
+				<ModalCloseButton color={theme.colors.primary} onClick={onClose} size='lg' />
 				<ModalBody>
 					<S.Form onSubmit={handleSubmit(onSubmit)} ref={formRef}>
 						<FormControl isRequired isInvalid={!!errors.name}>
@@ -109,12 +109,12 @@ export const ModalCreateUser = ({ isOpen, onClose }: ModalCreateUserProps) => {
 								autoFocus
 								{...register('name')}
 								onKeyDown={(e) => {
-                                if (e.key === 'Enter') {
-                                    formRef.current!.dispatchEvent(
-                                        new Event("submit", { cancelable: true, bubbles: true })
-                                    );
-                                }
-                            }}
+									if (e.key === 'Enter') {
+										formRef.current!.dispatchEvent(
+											new Event("submit", { cancelable: true, bubbles: true })
+										);
+									}
+								}}
 							/>
 							{errors.name?.message && <FormErrorMessage fontSize={theme.font.sizes.xsmall}>{errors.name.message}</FormErrorMessage>}
 						</FormControl>
@@ -137,12 +137,12 @@ export const ModalCreateUser = ({ isOpen, onClose }: ModalCreateUserProps) => {
 								autoComplete='off'
 								{...register('cpf')}
 								onKeyDown={(e) => {
-                                if (e.key === 'Enter') {
-                                    formRef.current!.dispatchEvent(
-                                        new Event("submit", { cancelable: true, bubbles: true })
-                                    );
-                                }
-                            }}
+									if (e.key === 'Enter') {
+										formRef.current!.dispatchEvent(
+											new Event("submit", { cancelable: true, bubbles: true })
+										);
+									}
+								}}
 							/>
 							{errors.cpf?.message && <FormErrorMessage fontSize={theme.font.sizes.xsmall}>{errors.cpf.message}</FormErrorMessage>}
 						</FormControl>
@@ -165,12 +165,12 @@ export const ModalCreateUser = ({ isOpen, onClose }: ModalCreateUserProps) => {
 								autoComplete='off'
 								{...register('celular')}
 								onKeyDown={(e) => {
-                                if (e.key === 'Enter') {
-                                    formRef.current!.dispatchEvent(
-                                        new Event("submit", { cancelable: true, bubbles: true })
-                                    );
-                                }
-                            }}
+									if (e.key === 'Enter') {
+										formRef.current!.dispatchEvent(
+											new Event("submit", { cancelable: true, bubbles: true })
+										);
+									}
+								}}
 							/>
 							{errors.celular?.message && <FormErrorMessage fontSize={theme.font.sizes.xsmall}>{errors.celular.message}</FormErrorMessage>}
 						</FormControl>
@@ -205,5 +205,5 @@ export const ModalCreateUser = ({ isOpen, onClose }: ModalCreateUserProps) => {
 				</ModalFooter>
 			</ModalContent>
 		</Modal>
-    )
+	)
 }

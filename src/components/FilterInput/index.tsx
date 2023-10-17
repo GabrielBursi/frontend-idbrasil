@@ -1,12 +1,13 @@
 'use client'
 
-import React from 'react'
+import React, { useRef } from 'react'
 import { Button, Input, InputGroup, InputRightElement, useMediaQuery } from '@chakra-ui/react'
 import { FaFilter, FaSearch, FaTrash } from 'react-icons/fa'
 import { darken } from 'polished'
 
 import * as S from './styles'
 import { theme } from '../../styles'
+import { useMyContext } from '../../context'
 
 export const FilterInput = () => {
 
@@ -14,6 +15,28 @@ export const FilterInput = () => {
 		ssr: true,
 		fallback: false
 	})
+
+	const inputRef = useRef<HTMLInputElement | null>(null);
+
+	const { filterUsersAccordingInput, errorMessage, getAllUsers, users } = useMyContext()
+
+	const filter = () => {
+		if (!inputRef.current) return
+		else if (inputRef.current.value === '') return
+		else if (errorMessage) return
+		else if (!users.length) return
+		else {
+			filterUsersAccordingInput(inputRef.current.value)
+		}
+	}
+
+	const clean = () => {
+		if (inputRef.current) {
+			inputRef.current.value = '';
+			inputRef.current.focus()
+			getAllUsers()
+		}
+	};
 
 	return (
 		<S.FilterInput>
@@ -28,9 +51,15 @@ export const FilterInput = () => {
 					color={theme.colors.primaryText}
 					backgroundColor={darken(0.6, theme.colors.secondaryText)}
 					placeholder='Digite o nome ou o telefone da pessoa procurada'
+					ref={inputRef}
+					onKeyDown={(e) => {
+						if (e.key === 'Enter') {
+							filter()
+						}
+					}}
 				/>
 				<InputRightElement paddingY={theme.spacings.xsmall}>
-					<FaSearch color={theme.colors.primary} size={15}/>
+					<FaSearch color={theme.colors.primary} size={15} />
 				</InputRightElement>
 			</InputGroup>
 			<S.ButtonContainer>
@@ -42,6 +71,7 @@ export const FilterInput = () => {
 					variant='solid'
 					backgroundColor={theme.colors.primary}
 					color={theme.colors.secondary}
+					onClick={filter}
 					_hover={{
 						backgroundColor: darken(0.1, theme.colors.primary),
 						color: theme.colors.primaryText
@@ -57,6 +87,7 @@ export const FilterInput = () => {
 					fontSize={theme.font.sizes.small}
 					borderColor={theme.colors.primary}
 					color={theme.colors.primary}
+					onClick={clean}
 					_hover={{
 						backgroundColor: darken(0.1, theme.colors.primary),
 						color: theme.colors.primaryText

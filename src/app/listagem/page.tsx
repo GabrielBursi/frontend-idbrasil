@@ -1,45 +1,20 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { useEffect } from 'react'
 
 import { Listagem } from '@/templates'
-import { UserServices } from '@/api/services'
-import { User } from '@/types'
+import { useMyContext } from '@/context'
 
 export default function ListagemPage() {
 
-	const [users, setUsers] = useState<User[]>([]);
-	const [errorMessage, setErrorMessage] = useState<string>();
-
-	const { data, isFetched, isLoading, error } = useQuery({
-		queryKey: ['users'],
-		queryFn: UserServices.GetAll,
-		staleTime: 5000,
-	})
+	const { users, errorMessage, isLoadingUsers, getAllUsers } = useMyContext()
 
 	useEffect(() => {
-		console.log(data, error)
-		if(isLoading || !isFetched || !data){
-			return
-		}
-
-		if(error instanceof Error){
-			setErrorMessage(error.message)
-			return
-		}
-
-		if(data instanceof Error){
-			setErrorMessage(data.message)
-			return
-		}
-
-		setUsers(data)
-
+		getAllUsers()
 	// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [data]);
+	}, []);
 
 	return (
-		<Listagem users={users} isLoading={isLoading || !isFetched} error={errorMessage}/>
+		<Listagem users={users} isLoading={isLoadingUsers} error={errorMessage}/>
 	)
 }
