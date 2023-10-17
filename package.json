@@ -23,6 +23,7 @@
 		"@hookform/resolvers": "^3.3.2",
 		"@reduxjs/toolkit": "^1.9.7",
 		"@storybook/addon-themes": "^7.4.6",
+		"@tanstack/react-query": "^5.0.0",
 		"axios": "^1.5.1",
 		"eslint-config-next": "13.4.19",
 		"framer-motion": "^10.16.4",
