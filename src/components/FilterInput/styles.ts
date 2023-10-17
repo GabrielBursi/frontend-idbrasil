@@ -8,7 +8,7 @@ export const FilterInput = styled.div`
     `}
 `
 
-export const Title = styled.div`
+export const Title = styled.h1`
 	${({ theme }) => css`
 		font-size: ${theme.font.sizes.large};
 		color: ${theme.colors.secondaryText};

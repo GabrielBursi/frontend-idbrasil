@@ -38,7 +38,7 @@ export const TextContainer = styled.div`
 	`}
 `
 
-export const Name = styled.div`
+export const Name = styled.p`
 	${({ theme }) => css`
 		color: ${theme.colors.primaryText};
 		font-size: ${theme.font.sizes.medium};
@@ -65,7 +65,7 @@ export const Info = styled.div`
 	`}
 `
 
-export const InfoText = styled.div`
+export const InfoText = styled.span`
 	${({ theme }) => css`
 		color: ${theme.colors.secondaryText};
 		font-size: ${theme.font.sizes.small};
