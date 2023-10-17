@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, useMediaQuery } from '@chakra-ui/react'
+import { Alert, AlertIcon, AlertTitle, Button, useMediaQuery } from '@chakra-ui/react'
 import { PiPlusBold } from 'react-icons/pi'
 import { darken } from 'polished'
 
@@ -10,7 +10,7 @@ import { ListagemProps } from './types'
 import { Container, FilterInput, UsersList } from '@/components'
 import { theme } from '@/styles'
 
-export const Listagem = ({ isLoading, users }: ListagemProps) => {
+export const Listagem = ({ isLoading, users, error }: ListagemProps) => {
 
 	const [isMobile] = useMediaQuery('(max-width: 768px)', {
 		ssr: true,
@@ -26,7 +26,16 @@ export const Listagem = ({ isLoading, users }: ListagemProps) => {
 			</S.Banner>
 			<Container>
 				<FilterInput />
-				<UsersList users={users} isLoading={isLoading}/>
+				{error ?
+					<S.Centralize>
+						<Alert status='error'>
+							<AlertIcon />
+							<AlertTitle>{error}</AlertTitle>
+						</Alert>
+					</S.Centralize>
+					:
+					<UsersList users={users} isLoading={isLoading} />
+				}
 				<S.Centralize>
 					<S.TotalText>
 						Total de pessoas cadastradas: <S.TotalUsers>{users.length}</S.TotalUsers>
