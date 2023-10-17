@@ -27,3 +27,22 @@ export const EmptyText = styled.div`
 		`}
 	`}
 `
+
+export const SeeMoreContainer = styled.div`
+	${({ theme }) => css`
+		display: flex;
+		gap: ${theme.spacings.xxsmall};
+		justify-content: center;
+		align-items: center;
+		cursor: pointer;
+		margin-top: ${theme.spacings.small};
+	`}
+`
+
+export const SeeMoreText = styled.div`
+	${({ theme }) => css`
+		color: ${theme.colors.primary};
+		font-size: ${theme.font.sizes.medium};
+		font-weight: ${theme.font.bold};
+	`}
+`
