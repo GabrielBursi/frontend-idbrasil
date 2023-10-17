@@ -1,5 +1,5 @@
 import axios from "axios";
 
-export const MyAPI = axios.create({
-    baseURL: ''
+export const Api = axios.create({
+	baseURL: 'http://apifront.idbrasil.com:8080/api_teste_frontend'
 })
