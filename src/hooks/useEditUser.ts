@@ -29,7 +29,7 @@ export type EditUserData = z.infer<typeof EditUser>
 
 export const useEditUser = () => {
 
-	const { handleSubmit, formState: { errors, isSubmitting }, register, clearErrors, setFocus, reset, setValue } = useForm<EditUserData>({
+	const { handleSubmit, formState: { errors, isSubmitting }, register, clearErrors, setFocus, reset, setValue, control } = useForm<EditUserData>({
 		defaultValues: {
 			name: '',
 			celular: '',
@@ -53,6 +53,7 @@ export const useEditUser = () => {
 		reset,
 		setValue,
 		hasErrors,
-		formRef
+		formRef,
+		control
 	}
 }

@@ -4,8 +4,8 @@ export const usersMock: User[] = [
 	{
 		id: 1,
 		nome: "Fulano Silva",
-		cpf: "12345678901",
-		telefone: "987654321",
+		cpf: "123.456.789-01",
+		telefone: "98 4765-4321",
 		ativo: true
 	},
 	{

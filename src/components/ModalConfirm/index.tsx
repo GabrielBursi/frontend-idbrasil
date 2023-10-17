@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, useMediaQuery } from '@chakra-ui/react'
+import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useMediaQuery } from '@chakra-ui/react'
 import { FiAlertOctagon } from 'react-icons/fi'
 import { darken } from 'polished'
 
@@ -9,9 +9,8 @@ import { ModalConfirmProps } from './types'
 import * as S from './styles'
 import { theme } from '../../styles'
 
-export const ModalConfirm = ({ name, isOpen }: ModalConfirmProps) => {
+export const ModalConfirm = ({ name, isOpen, onClose, onConfirm }: ModalConfirmProps) => {
 
-	const { onClose } = useDisclosure()
 	const [isMobile] = useMediaQuery('(max-width: 768px)', {
 		ssr: true,
 		fallback: false
@@ -71,7 +70,7 @@ export const ModalConfirm = ({ name, isOpen }: ModalConfirmProps) => {
 					</Button>
 					<Button
 						paddingY={theme.spacings.xsmall}
-						onClick={onClose}
+						onClick={onConfirm}
 						variant='outline'
 						color={theme.colors.primary}
 						fontSize={isMobile ? theme.font.sizes.small : theme.font.sizes.medium}
