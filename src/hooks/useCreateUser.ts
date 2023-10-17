@@ -9,7 +9,7 @@ const CreateUser = z.object({
         .min(6, 'Esse campo deve conter pelo menos 6 caracteres.'),
     cpf: z.string()
         .nonempty('Esse campo é obrigatório.')
-		.regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, 'Esse campo deve seguir o formato de telefone XXX.XXX.XXX-XX.'),
+		.regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, 'Esse campo deve seguir o formato de CPF XXX.XXX.XXX-XX.'),
     celular: z.string()
         .nonempty('Esse campo é obrigatório.')
         .regex(/^(\d{2})\s(\d{4}-\d{4})$/, 'Esse campo deve seguir o formato de telefone 99 9999-9999.')
