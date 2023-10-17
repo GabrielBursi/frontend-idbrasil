@@ -37,7 +37,7 @@ export const ModalConfirm = ({ name, isOpen }: ModalConfirmProps) => {
 				>
 					<FiAlertOctagon size={40} color={theme.colors.primary}/>
 				</ModalHeader>
-				<ModalCloseButton color={theme.colors.primary} onClick={onClose}/>
+				<ModalCloseButton color={theme.colors.primary} onClick={onClose} size='lg' />
 				<ModalBody
 					display='flex'
 					justifyContent='center'

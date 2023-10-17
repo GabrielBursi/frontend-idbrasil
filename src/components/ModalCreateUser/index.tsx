@@ -1,7 +1,22 @@
 'use client'
 
 import React, { useEffect } from 'react'
-import { Button, FormControl, FormErrorMessage, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, useMediaQuery } from '@chakra-ui/react'
+import {
+	Button,
+	FormControl,
+	FormErrorMessage,
+	FormLabel,
+	Input,
+	Modal,
+	ModalBody,
+	ModalCloseButton,
+	ModalContent,
+	ModalFooter,
+	ModalHeader,
+	ModalOverlay,
+	useDisclosure,
+	useMediaQuery
+} from '@chakra-ui/react'
 import { PiPlusBold } from 'react-icons/pi'
 import { darken } from 'polished'
 
@@ -48,7 +63,7 @@ export const ModalCreateUser = ({ isOpen }: ModalCreateUserProps) => {
 						Adicionar Pessoa
 					</S.Title>
 				</ModalHeader>
-				<ModalCloseButton color={theme.colors.primary} onClick={onClose} />
+				<ModalCloseButton color={theme.colors.primary} onClick={onClose} size='lg'/>
 				<ModalBody>
 					<S.Form onSubmit={handleSubmit(onSubmit)} ref={formRef}>
 						<FormControl isRequired isInvalid={!!errors.name}>
@@ -58,10 +73,10 @@ export const ModalCreateUser = ({ isOpen }: ModalCreateUserProps) => {
 							>
 								Nome:
 							</FormLabel>
-							<Input 
-								type='text' 
-								id='nome' 
-								placeholder='Nome Sobrenome' 
+							<Input
+								type='text'
+								id='nome'
+								placeholder='Nome Sobrenome'
 								fontSize={theme.font.sizes.medium}
 								color={theme.colors.primaryText}
 								paddingY={theme.spacings.xsmall}
@@ -77,20 +92,20 @@ export const ModalCreateUser = ({ isOpen }: ModalCreateUserProps) => {
                                 }
                             }}
 							/>
-							{errors.name?.message && <FormErrorMessage>{errors.name.message}</FormErrorMessage>}
+							{errors.name?.message && <FormErrorMessage fontSize={theme.font.sizes.xsmall}>{errors.name.message}</FormErrorMessage>}
 						</FormControl>
 						<FormControl isRequired isInvalid={!!errors.cpf}>
 							<FormLabel
 								color={theme.colors.primaryText}
 								fontSize={theme.font.sizes.small}
 							>
-								CPF: 
+								CPF:
 							</FormLabel>
-							<Input 
-								type='text' 
-								id='cpf' 
+							<Input
+								type='text'
+								id='cpf'
 								maxLength={15}
-								placeholder='xxx.xxx.xxx-xx' 
+								placeholder='xxx.xxx.xxx-xx'
 								fontSize={theme.font.sizes.medium}
 								color={theme.colors.primaryText}
 								paddingY={theme.spacings.xsmall}
@@ -105,19 +120,19 @@ export const ModalCreateUser = ({ isOpen }: ModalCreateUserProps) => {
                                 }
                             }}
 							/>
-							{errors.cpf?.message && <FormErrorMessage>{errors.cpf.message}</FormErrorMessage>}
+							{errors.cpf?.message && <FormErrorMessage fontSize={theme.font.sizes.xsmall}>{errors.cpf.message}</FormErrorMessage>}
 						</FormControl>
 						<FormControl isRequired isInvalid={!!errors.celular}>
 							<FormLabel
 								color={theme.colors.primaryText}
 								fontSize={theme.font.sizes.small}
 							>
-								Celular: 
+								Celular:
 							</FormLabel>
-							<Input 
-								type='text' 
-								id='celular' 
-								placeholder='(xx) xxxxx-xxxx' 
+							<Input
+								type='text'
+								id='celular'
+								placeholder='(xx) xxxxx-xxxx'
 								maxLength={12}
 								fontSize={theme.font.sizes.medium}
 								color={theme.colors.primaryText}
@@ -133,7 +148,7 @@ export const ModalCreateUser = ({ isOpen }: ModalCreateUserProps) => {
                                 }
                             }}
 							/>
-							{errors.celular?.message && <FormErrorMessage>{errors.celular.message}</FormErrorMessage>}
+							{errors.celular?.message && <FormErrorMessage fontSize={theme.font.sizes.xsmall}>{errors.celular.message}</FormErrorMessage>}
 						</FormControl>
 					</S.Form>
 				</ModalBody>
