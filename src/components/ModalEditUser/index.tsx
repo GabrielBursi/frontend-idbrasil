@@ -58,6 +58,11 @@ export const ModalEditUser = ({ user, isLoading = false, isOpen, onClose }: Moda
 
 	const onSubmit = async (data: EditUserData) => {
 
+		if (data.celular === user?.telefone && data.cpf === user.cpf && data.name === user.nome && statusToBool(data.ativo) === user?.ativo){
+			onClose()
+			return
+		}
+
 		if (statusToBool(data.ativo) !== user?.ativo) {
 			setUserSelected(data)
 			onClose()
