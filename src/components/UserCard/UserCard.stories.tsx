@@ -9,7 +9,8 @@ const meta: Meta<typeof UserCard> ={
 			nome: 'gabriel bursi',
 			telefone: '44 9988-1155',
 			cpf: '090.931.239-71',
-			id: 1
+			id: 1,
+			ativo: true
 		}
 	}
 }
