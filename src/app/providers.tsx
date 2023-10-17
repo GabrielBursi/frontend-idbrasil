@@ -2,7 +2,8 @@
 
 import { PropsWithChildren } from 'react'
 import { ThemeProvider } from 'styled-components'
-import { ChakraBaseProvider } from '@chakra-ui/react'
+import { CacheProvider } from '@chakra-ui/next-js'
+import { ChakraProvider } from '@chakra-ui/react'
 
 import { GlobalStyles, theme } from '../styles'
 import StyledComponentsRegistry from '../lib/registry'
@@ -10,14 +11,16 @@ import StyledComponentsRegistry from '../lib/registry'
 export function Providers({ children }: PropsWithChildren) {
 	return (
 		<>
-			<ChakraBaseProvider>
-				<GlobalStyles />
-				<StyledComponentsRegistry>
-					<ThemeProvider theme={theme}>
-						{children}
-					</ThemeProvider>
-				</StyledComponentsRegistry>
-			</ChakraBaseProvider>
+			<CacheProvider>
+				<ChakraProvider>
+					<GlobalStyles />
+					<StyledComponentsRegistry>
+						<ThemeProvider theme={theme}>
+							{children}
+						</ThemeProvider>
+					</StyledComponentsRegistry>
+				</ChakraProvider>
+			</CacheProvider>
 		</>
 	)
 }
