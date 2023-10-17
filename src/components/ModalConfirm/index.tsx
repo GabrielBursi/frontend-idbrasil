@@ -19,8 +19,7 @@ export const ModalConfirm = ({ name, isOpen }: ModalConfirmProps) => {
 
     return (
 		<Modal
-			closeOnOverlayClick={isOpen}
-			isOpen={true}
+			isOpen={isOpen}
 			onClose={onClose}
 			isCentered
 			size='2xl'

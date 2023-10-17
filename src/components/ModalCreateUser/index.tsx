@@ -47,8 +47,7 @@ export const ModalCreateUser = ({ isOpen }: ModalCreateUserProps) => {
 
     return (
 		<Modal
-			closeOnOverlayClick={isOpen}
-			isOpen={true}
+			isOpen={isOpen}
 			onClose={onClose}
 			isCentered
 			size='2xl'
