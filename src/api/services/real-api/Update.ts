@@ -1,10 +1,10 @@
 import { AxiosError } from "axios";
-import { Api } from "../config";
 import { User } from "@/types";
+import { Api } from "@/api/config";
 
-export const UpdateStatus = async (id: number, user: Pick<User, 'ativo'>): Promise<void | Error> => {
+export const Update = async (id: number, user: Partial<Omit<User, 'id' | 'ativo'>>): Promise<void | Error> => {
 	try {
-		await Api.put(`/pessoa_status/${id}`, { ...user })
+		await Api.put(`/pessoa/${id}`, { ...user })
 	} catch (error) {
 		const err = error as AxiosError
 		const customError = err?.response?.data;

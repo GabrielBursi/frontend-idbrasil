@@ -1,5 +1,5 @@
 import { AxiosError } from "axios";
-import { Api } from "../config";
+import { Api } from "@/api/config";
 import { User } from "@/types";
 
 export const Create = async (user: Omit<User, 'id'>): Promise<User | Error> => {

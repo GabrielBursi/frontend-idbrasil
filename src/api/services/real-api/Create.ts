@@ -1,10 +1,11 @@
 import { AxiosError } from "axios";
-import { Api } from "../config";
 import { User } from "@/types";
+import { Api } from "@/api/config";
 
-export const Update = async (id: number, user: Partial<Omit<User, 'id' | 'ativo'>>): Promise<void | Error> => {
+export const Create = async (user: Omit<User, 'id'>): Promise<User | Error> => {
 	try {
-		await Api.put(`/pessoas/${id}`, { ...user })
+		const { data } = await Api.post<User>('/pessoa', { ...user });
+		return data
 	} catch (error) {
 		const err = error as AxiosError
 		const customError = err?.response?.data;
@@ -13,6 +14,6 @@ export const Update = async (id: number, user: Partial<Omit<User, 'id' | 'ativo'
 			return new Error(`Ocorreu o seguinte erro: ${customError}`)
 		} else {
 			return new Error(process.env.NEXT_PUBLIC_API_ERROR_GLOBAL)
-		};
+		}
 	}
 }

@@ -1,14 +1,14 @@
 import { AxiosError } from "axios";
-import { Api } from "../config";
 import { User } from "@/types";
+import { Api } from "@/api/config";
 
-export const GetAll = async (): Promise<User[] | Error> => {
+export const GetById = async (id: number): Promise<User | Error> => {
 	try {
-		const { data } = await Api<User[]>('/pessoas');
+		const { data } = await Api<User>(`/pessoas/${id}`);
 		return data;
 	} catch (error) {
 		const err = error as AxiosError;
-		const customError = err?.response?.data;
+		const customError = err?.response?.data ;
 
 		if (customError) {
 			return new Error(`Ocorreu o seguinte erro: ${customError}`)

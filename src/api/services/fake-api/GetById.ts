@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
-import { Api } from "../config";
 import { User } from "@/types";
+import { Api } from "@/api/config";
 
 export const GetById = async (id: number): Promise<User | Error> => {
 	try {
