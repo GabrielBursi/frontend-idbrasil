@@ -49,6 +49,7 @@ export const FilterInput = () => {
 					color={theme.colors.primaryText}
 					backgroundColor={darken(0.6, theme.colors.secondaryText)}
 					placeholder='Digite o nome ou o telefone da pessoa procurada'
+					_placeholder={{ color: theme.colors.primaryText }}
 					ref={inputFilterRef}
 					onKeyDown={(e) => {
 						if (e.key === 'Enter') {

@@ -19,6 +19,7 @@ import {
 } from '@chakra-ui/react'
 import { PiPlusBold } from 'react-icons/pi'
 import { darken } from 'polished'
+import InputMask from 'react-input-mask';
 
 import { ModalCreateUserProps } from './types'
 import * as S from './styles'
@@ -102,6 +103,7 @@ export const ModalCreateUser = ({ isOpen, onClose }: ModalCreateUserProps) => {
 								Nome:
 							</FormLabel>
 							<Input
+								{...register('name')}
 								type='text'
 								id='nome'
 								placeholder='Nome Sobrenome'
@@ -111,7 +113,6 @@ export const ModalCreateUser = ({ isOpen, onClose }: ModalCreateUserProps) => {
 								focusBorderColor={theme.colors.primary}
 								autoComplete='off'
 								autoFocus
-								{...register('name')}
 								onKeyDown={(e) => {
 									if (e.key === 'Enter') {
 										formRef.current!.dispatchEvent(
@@ -130,6 +131,10 @@ export const ModalCreateUser = ({ isOpen, onClose }: ModalCreateUserProps) => {
 								CPF:
 							</FormLabel>
 							<Input
+								{...register('cpf')}
+								as={InputMask}
+								mask='999.999.999-99'
+								maskChar={null}
 								type='text'
 								id='cpf'
 								maxLength={15}
@@ -139,7 +144,6 @@ export const ModalCreateUser = ({ isOpen, onClose }: ModalCreateUserProps) => {
 								paddingY={theme.spacings.xsmall}
 								focusBorderColor={theme.colors.primary}
 								autoComplete='off'
-								{...register('cpf')}
 								onKeyDown={(e) => {
 									if (e.key === 'Enter') {
 										formRef.current!.dispatchEvent(
@@ -158,6 +162,10 @@ export const ModalCreateUser = ({ isOpen, onClose }: ModalCreateUserProps) => {
 								Celular:
 							</FormLabel>
 							<Input
+								{...register('celular')}
+								as={InputMask}
+								mask='99 9999-9999'
+								maskChar={null}
 								type='text'
 								id='celular'
 								placeholder='(xx) xxxxx-xxxx'
@@ -167,7 +175,6 @@ export const ModalCreateUser = ({ isOpen, onClose }: ModalCreateUserProps) => {
 								paddingY={theme.spacings.xsmall}
 								focusBorderColor={theme.colors.primary}
 								autoComplete='off'
-								{...register('celular')}
 								onKeyDown={(e) => {
 									if (e.key === 'Enter') {
 										formRef.current!.dispatchEvent(

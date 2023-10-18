@@ -24,6 +24,7 @@ import {
 } from '@chakra-ui/react'
 import { Controller } from 'react-hook-form'
 import { darken, lighten } from 'polished'
+import InputMask from 'react-input-mask';
 
 import { ModalEditUserProps } from './types'
 import * as S from './styles'
@@ -175,6 +176,9 @@ export const ModalEditUser = ({ user, isLoading = false, isOpen, onClose }: Moda
 								>
 									<Input
 										{...register('cpf')}
+										as={InputMask}
+										mask='999.999.999-99'
+										maskChar={null}
 										type='text'
 										id='cpf'
 										maxLength={15}
@@ -209,6 +213,9 @@ export const ModalEditUser = ({ user, isLoading = false, isOpen, onClose }: Moda
 								>
 									<Input
 										{...register('celular')}
+										as={InputMask}
+										mask='99 9999-9999'
+										maskChar={null}
 										type='text'
 										id='celular'
 										placeholder='(xx) xxxxx-xxxx'
