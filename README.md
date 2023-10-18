@@ -14,6 +14,24 @@ Para a documentação e visualização dos componentes, integrei o Storybook, pe
 
 Você pode acessar o repositório no GitHub desse template [por aqui](https://github.com/GabrielBursi/boilerplate-next-approuter).
 
+## Tecnologias Utilizadas
+
+* **Chakra UI**: Essa biblioteca fornece componentes reutilizáveis e estilizados, o que acelera o processo de desenvolvimento e mantém uma consistência visual em toda a aplicação. A integração com Next.js e React facilita a construção de interfaces modernas e responsivas.
+
+* **Axios**: Utilizado para realizar requisições HTTP, o Axios é uma escolha sólida para a comunicação entre o frontend e o backend, oferecendo uma API intuitiva e fácil de usar.
+
+* **JSON Server**: Uma ferramenta prática para criar uma API fake durante o desenvolvimento, permitindo simular o comportamento do backend antes da sua implementação definitiva.
+
+* **React Hook** Form: Essa biblioteca simplifica a gestão de formulários no React, tornando o processo de coleta e validação de dados mais intuitivo e eficiente.
+
+* **React Icons**: Facilita a incorporação de ícones de alta qualidade à aplicação, contribuindo para uma interface mais atraente e usável.
+
+* **Styled Components**: Esta biblioteca permite a estilização de componentes de forma mais dinâmica e organizada, integrando o CSS diretamente no JavaScript. Isso promove uma melhor organização do código e facilita a manutenção.
+
+* **Styled Media Query**: Utilizado para implementar estilos responsivos com base em consultas de mídia, garantindo uma experiência de usuário consistente em diferentes dispositivos.
+
+* **Polished**: Esta biblioteca oferece um conjunto de utilitários para manipulação de estilos, facilitando a aplicação de efeitos visuais e garantindo uma aparência consistente.
+
 ## Como usar
 
 1. Digite no terminal o seguinte comando:
