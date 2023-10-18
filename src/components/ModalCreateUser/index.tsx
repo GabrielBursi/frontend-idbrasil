@@ -24,7 +24,7 @@ import { ModalCreateUserProps } from './types'
 import * as S from './styles'
 import { theme } from '../../styles'
 import { CreateUserData, useCreateUser } from '../../hooks'
-import { FakeUserServices } from '../../api/services'
+import { UserServices } from '../../api/services'
 import { useMyContext } from '../../context'
 
 export const ModalCreateUser = ({ isOpen, onClose }: ModalCreateUserProps) => {
@@ -46,7 +46,7 @@ export const ModalCreateUser = ({ isOpen, onClose }: ModalCreateUserProps) => {
 
 	const onSubmit = async (data: CreateUserData) => {
 
-		const newUser = await FakeUserServices.Create({ cpf: data.cpf, ativo: true, nome: data.name, telefone: data.celular })
+		const newUser = await UserServices.Create({ cpf: data.cpf, ativo: true, nome: data.name, telefone: data.celular })
 
 		if (newUser instanceof Error) {
 			toast({

@@ -1,6 +1,6 @@
 import React, { ReactNode, createContext, useContext, useRef, useState } from 'react';
 import { User } from '@/types';
-import { FakeUserServices } from '@/api/services';
+import { UserServices } from '@/api/services';
 import { ENV_VARIABLES } from '@/env';
 
 interface UsersContextData {
@@ -44,7 +44,7 @@ export const UsersContextProvider = ({ children }: { children: ReactNode }) => {
 
 	const getAllUsers = async () => {
 		setIsLoadingUsers(true)
-		const allUsers = await FakeUserServices.GetAll()
+		const allUsers = await UserServices.GetAll()
 
 		if (allUsers instanceof Error) {
 			setIsLoadingUsers(false)

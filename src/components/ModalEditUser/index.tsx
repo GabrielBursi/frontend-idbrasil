@@ -29,7 +29,7 @@ import { ModalEditUserProps } from './types'
 import * as S from './styles'
 import { theme } from '../../styles'
 import { EditUserData, Status, useEditUser, useModalEdit } from '../../hooks'
-import { FakeUserServices } from '../../api/services'
+import { UserServices } from '../../api/services'
 import { ModalConfirm } from '..'
 
 export const ModalEditUser = ({ user, isLoading = false, isOpen, onClose }: ModalEditUserProps) => {
@@ -70,7 +70,7 @@ export const ModalEditUser = ({ user, isLoading = false, isOpen, onClose }: Moda
 			return
 		}
 
-		const userUpdated = await FakeUserServices.Update(user!.id, { cpf: data.cpf, nome: data.name, telefone: data.celular })
+		const userUpdated = await UserServices.Update(user!.id, { cpf: data.cpf, nome: data.name, telefone: data.celular })
 
 		if (userUpdated instanceof Error) {
 			showToastError(userUpdated.message)
@@ -83,7 +83,7 @@ export const ModalEditUser = ({ user, isLoading = false, isOpen, onClose }: Moda
 	const confirmChangeStatus = async () => {
 
 		if (compareSameDataUser(userEdited!, user)) {
-			const userStatusUpdated = await FakeUserServices.UpdateStatus(user!.id, { ativo: userEdited?.ativo === Status.ativar });
+			const userStatusUpdated = await UserServices.UpdateStatus(user!.id, { ativo: userEdited?.ativo === Status.ativar });
 
 			if (userStatusUpdated instanceof Error) {
 				showToastError(userStatusUpdated.message)
@@ -93,8 +93,8 @@ export const ModalEditUser = ({ user, isLoading = false, isOpen, onClose }: Moda
 			closeModalSuccess(onCloseModalConfirm)
 		} else {
 			const [userUpdated, userStatusUpdated] = await Promise.all([
-				FakeUserServices.Update(user!.id, { cpf: userEdited?.cpf, nome: userEdited?.name, telefone: userEdited?.celular }),
-				FakeUserServices.UpdateStatus(user!.id, { ativo: userEdited?.ativo === Status.ativar })
+				UserServices.Update(user!.id, { cpf: userEdited?.cpf, nome: userEdited?.name, telefone: userEdited?.celular }),
+				UserServices.UpdateStatus(user!.id, { ativo: userEdited?.ativo === Status.ativar })
 			])
 
 			if (userUpdated instanceof Error || userStatusUpdated instanceof Error) {
