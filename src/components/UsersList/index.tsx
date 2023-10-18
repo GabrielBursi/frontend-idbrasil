@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md'
 import { Spinner } from '@chakra-ui/react'
 
@@ -9,8 +9,18 @@ import * as S from './styles'
 
 import { UserCard } from '..'
 import { theme } from '../../styles'
+import { useMyContext } from '../../context'
 
 export const UsersList = ({ users, isLoading }: UsersListProps) => {
+
+	const [usersPaginated, setUsersPaginated] = useState(users);
+	const { showMoreUsers, visibleUsersCount, totalUsers, inputFilterRef } = useMyContext()
+
+	useEffect(() => {
+		const usersPaginated = users.slice(0, visibleUsersCount)
+		setUsersPaginated(usersPaginated)
+	}, [users, visibleUsersCount]);
+
 	return (
 		<S.UsersList>
 			{isLoading ?
@@ -20,7 +30,7 @@ export const UsersList = ({ users, isLoading }: UsersListProps) => {
 				:
 				<>
 					{users.length ?
-						users.map(user => (
+						usersPaginated.map(user => (
 							<UserCard key={user.id} user={user} />
 						))
 						:
@@ -30,9 +40,9 @@ export const UsersList = ({ users, isLoading }: UsersListProps) => {
 							</S.EmptyText>
 						</S.Centralize>
 					}
-					{users.length >= 1 &&
+					{((visibleUsersCount < totalUsers) && !inputFilterRef.current?.value) &&
 						<S.Centralize>
-							<S.SeeMoreContainer>
+							<S.SeeMoreContainer onClick={showMoreUsers}>
 								<S.SeeMoreText>
 									Ver mais
 								</S.SeeMoreText>

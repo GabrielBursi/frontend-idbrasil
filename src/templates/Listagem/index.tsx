@@ -9,6 +9,7 @@ import { ListagemProps } from './types'
 
 import { Container, FilterInput, ModalCreateUser, UsersList } from '@/components'
 import { theme } from '@/styles'
+import { useMyContext } from '@/context'
 
 export const Listagem = ({ isLoading, users, error }: ListagemProps) => {
 
@@ -16,6 +17,8 @@ export const Listagem = ({ isLoading, users, error }: ListagemProps) => {
 		ssr: true,
 		fallback: false
 	})
+
+	const { totalUsers } = useMyContext()
 
 	const { onOpen, isOpen, onClose } = useDisclosure()
 
@@ -41,7 +44,7 @@ export const Listagem = ({ isLoading, users, error }: ListagemProps) => {
 					}
 					<S.Centralize>
 						<S.TotalText>
-							Total de pessoas cadastradas: <S.TotalUsers>{users.length}</S.TotalUsers>
+							Total de pessoas cadastradas: <S.TotalUsers>{totalUsers}</S.TotalUsers>
 						</S.TotalText>
 					</S.Centralize>
 					<S.Centralize>

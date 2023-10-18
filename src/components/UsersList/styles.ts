@@ -1,5 +1,6 @@
 import { css, styled } from "styled-components";
 import media from "styled-media-query";
+import { darken } from "polished";
 
 export const UsersList = styled.div`
 	${({ theme }) => css`
@@ -44,5 +45,10 @@ export const SeeMoreText = styled.div`
 		color: ${theme.colors.primary};
 		font-size: ${theme.font.sizes.medium};
 		font-weight: ${theme.font.bold};
+		transition: .4s;
+
+		&:hover {
+			color: ${darken(0.1, theme.colors.primary)};
+		}
 	`}
 `

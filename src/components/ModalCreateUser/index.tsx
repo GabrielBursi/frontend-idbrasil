@@ -24,18 +24,19 @@ import { ModalCreateUserProps } from './types'
 import * as S from './styles'
 import { theme } from '../../styles'
 import { CreateUserData, useCreateUser } from '../../hooks'
-import { UserServices } from '@/api/services'
+import { FakeUserServices } from '../../api/services'
+import { useMyContext } from '../../context'
 
 export const ModalCreateUser = ({ isOpen, onClose }: ModalCreateUserProps) => {
+
+	const { setUsers, setTotalUsers } = useMyContext()
+	const { handleSubmit, register, hasErrors, isSubmitting, errors, reset, clearErrors, formRef } = useCreateUser()
 
 	const [isMobile] = useMediaQuery('(max-width: 768px)', {
 		ssr: true,
 		fallback: false
 	})
-
 	const toast = useToast()
-
-	const { handleSubmit, register, hasErrors, isSubmitting, errors, reset, clearErrors, formRef } = useCreateUser()
 
 	useEffect(() => {
 		clearErrors()
@@ -45,7 +46,7 @@ export const ModalCreateUser = ({ isOpen, onClose }: ModalCreateUserProps) => {
 
 	const onSubmit = async (data: CreateUserData) => {
 
-		const newUser = await UserServices.Create({ cpf: data.cpf, ativo: true, nome: data.name, telefone: data.celular })
+		const newUser = await FakeUserServices.Create({ cpf: data.cpf, ativo: true, nome: data.name, telefone: data.celular })
 
 		if (newUser instanceof Error) {
 			toast({
@@ -58,6 +59,9 @@ export const ModalCreateUser = ({ isOpen, onClose }: ModalCreateUserProps) => {
 			})
 			return
 		}
+
+		setUsers(old => [...old, newUser])
+		setTotalUsers(old => old + 1)
 
 		toast({
 			title: 'Pessoa criada com sucesso.',

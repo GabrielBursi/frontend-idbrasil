@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useRef } from 'react'
+import React from 'react'
 import { Button, Input, InputGroup, InputRightElement, useMediaQuery } from '@chakra-ui/react'
 import { FaFilter, FaSearch, FaTrash } from 'react-icons/fa'
 import { darken } from 'polished'
@@ -16,24 +16,22 @@ export const FilterInput = () => {
 		fallback: false
 	})
 
-	const inputRef = useRef<HTMLInputElement | null>(null);
-
-	const { filterUsersAccordingInput, errorMessage, getAllUsers, users } = useMyContext()
+	const { filterUsersAccordingInput, errorMessage, getAllUsers, users, inputFilterRef } = useMyContext()
 
 	const filter = () => {
-		if (!inputRef.current) return
-		else if (inputRef.current.value === '') return
+		if (!inputFilterRef.current) return
+		else if (inputFilterRef.current.value === '') return
 		else if (errorMessage) return
 		else if (!users.length) return
 		else {
-			filterUsersAccordingInput(inputRef.current.value)
+			filterUsersAccordingInput(inputFilterRef.current.value)
 		}
 	}
 
 	const clean = () => {
-		if (inputRef.current) {
-			inputRef.current.value = '';
-			inputRef.current.focus()
+		if (inputFilterRef.current) {
+			inputFilterRef.current.value = '';
+			inputFilterRef.current.focus()
 			getAllUsers()
 		}
 	};
@@ -51,7 +49,7 @@ export const FilterInput = () => {
 					color={theme.colors.primaryText}
 					backgroundColor={darken(0.6, theme.colors.secondaryText)}
 					placeholder='Digite o nome ou o telefone da pessoa procurada'
-					ref={inputRef}
+					ref={inputFilterRef}
 					onKeyDown={(e) => {
 						if (e.key === 'Enter') {
 							filter()
