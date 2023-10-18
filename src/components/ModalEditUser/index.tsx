@@ -20,30 +20,30 @@ import {
 	Badge,
 	RadioGroup,
 	Radio,
-	useToast,
 	useDisclosure
 } from '@chakra-ui/react'
+import { Controller } from 'react-hook-form'
 import { darken, lighten } from 'polished'
 
 import { ModalEditUserProps } from './types'
 import * as S from './styles'
 import { theme } from '../../styles'
-import { EditUserData, Status, useEditUser } from '../../hooks'
-import { UserServices } from '@/api/services'
+import { EditUserData, Status, useEditUser, useModalEdit } from '../../hooks'
+import { UserServices } from '../../api/services'
 import { ModalConfirm } from '..'
-import { Controller } from 'react-hook-form'
 
 export const ModalEditUser = ({ user, isLoading = false, isOpen, onClose }: ModalEditUserProps) => {
-	const [userSelected, setUserSelected] = useState<EditUserData>();
 
+	const [userEdited, setUserEdited] = useState<EditUserData>();
+
+	const { handleSubmit, register, hasErrors, isSubmitting, errors, reset, clearErrors, formRef, setValue, control } = useEditUser()
+	const { closeModalSuccess, compareSameDataUser, showToastError, verifySameStatus } = useModalEdit()
+
+	const { onClose: onCloseModalConfirm, isOpen: isOpenModalConfirm, onOpen: onOpenModalConfirm } = useDisclosure()
 	const [isMobile] = useMediaQuery('(max-width: 768px)', {
 		ssr: true,
 		fallback: false
 	})
-	const toast = useToast()
-	const { onClose: onCloseModalConfirm, isOpen: isOpenModalConfirm, onOpen: onOpenModalConfirm } = useDisclosure()
-
-	const { handleSubmit, register, hasErrors, isSubmitting, errors, reset, clearErrors, formRef, setValue, control } = useEditUser()
 
 	useEffect(() => {
 		clearErrors()
@@ -58,29 +58,22 @@ export const ModalEditUser = ({ user, isLoading = false, isOpen, onClose }: Moda
 
 	const onSubmit = async (data: EditUserData) => {
 
-		if (data.celular === user?.telefone && data.cpf === user.cpf && data.name === user.nome && statusToBool(data.ativo) === user?.ativo){
-			onClose()
-			return
-		}
-
-		if (statusToBool(data.ativo) !== user?.ativo) {
-			setUserSelected(data)
+		if (verifySameStatus(data.ativo) !== user!.ativo) {
+			setUserEdited(data)
 			onClose()
 			onOpenModalConfirm()
 			return
 		}
 
-		const userUpdated = await UserServices.Update(user.id, { cpf: data.cpf, nome: data.name, telefone: data.celular })
+		if (compareSameDataUser(data, user)) {
+			onClose()
+			return
+		}
+
+		const userUpdated = await UserServices.Update(user!.id, { cpf: data.cpf, nome: data.name, telefone: data.celular })
 
 		if (userUpdated instanceof Error) {
-			toast({
-				title: 'Ocorreu algum erro ao tentar editar pessoa.',
-				description: `${userUpdated?.message}`,
-				status: 'error',
-				duration: 5000,
-				isClosable: true,
-				position: 'top-right'
-			})
+			showToastError(userUpdated.message)
 			return
 		}
 
@@ -89,40 +82,28 @@ export const ModalEditUser = ({ user, isLoading = false, isOpen, onClose }: Moda
 
 	const confirmChangeStatus = async () => {
 
-		const [userUpdated, userStatusUpdated] = await Promise.all([
-			UserServices.Update(user!.id, { cpf: userSelected?.cpf, nome: userSelected?.name, telefone: userSelected?.celular }),
-			UserServices.UpdateStatus(user!.id, { ativo: userSelected?.ativo === Status.ativar })
-		])
+		if (compareSameDataUser(userEdited!, user)) {
+			const userStatusUpdated = await UserServices.UpdateStatus(user!.id, { ativo: userEdited?.ativo === Status.ativar });
 
-		if (userUpdated instanceof Error || userStatusUpdated instanceof Error) {
-			toast({
-				title: 'Ocorreu algum erro ao tentar editar pessoa.',
-				description: `${userUpdated?.message ?? userStatusUpdated?.message}`,
-				status: 'error',
-				duration: 5000,
-				isClosable: true,
-				position: 'top-right'
-			})
-			return
+			if (userStatusUpdated instanceof Error) {
+				showToastError(userStatusUpdated.message)
+				return
+			}
+
+			closeModalSuccess(onCloseModalConfirm)
+		} else {
+			const [userUpdated, userStatusUpdated] = await Promise.all([
+				UserServices.Update(user!.id, { cpf: userEdited?.cpf, nome: userEdited?.name, telefone: userEdited?.celular }),
+				UserServices.UpdateStatus(user!.id, { ativo: userEdited?.ativo === Status.ativar })
+			])
+
+			if (userUpdated instanceof Error || userStatusUpdated instanceof Error) {
+				showToastError(userUpdated?.message ?? userStatusUpdated?.message)
+				return
+			}
+
+			closeModalSuccess(onCloseModalConfirm)
 		}
-
-		closeModalSuccess(onCloseModalConfirm)
-	}
-
-	const statusToBool = (status: Status): boolean => {
-		return status === Status.ativar;
-	};
-
-	const closeModalSuccess = (onClose: () => void) => {
-		toast({
-			title: 'Pessoa editada com sucesso.',
-			status: 'success',
-			duration: 5000,
-			isClosable: true,
-			position: 'top-right'
-		})
-
-		onClose()
 	}
 
 	return (
@@ -159,6 +140,7 @@ export const ModalEditUser = ({ user, isLoading = false, isOpen, onClose }: Moda
 									endColor={lighten(0.1, theme.colors.secondary)}
 								>
 									<Input
+										{...register('name')}
 										type='text'
 										id='nome'
 										placeholder='Nome Sobrenome'
@@ -168,7 +150,6 @@ export const ModalEditUser = ({ user, isLoading = false, isOpen, onClose }: Moda
 										focusBorderColor={theme.colors.primary}
 										autoComplete='off'
 										autoFocus
-										{...register('name')}
 										onKeyDown={(e) => {
 											if (e.key === 'Enter') {
 												formRef.current!.dispatchEvent(
@@ -193,6 +174,7 @@ export const ModalEditUser = ({ user, isLoading = false, isOpen, onClose }: Moda
 									endColor={lighten(0.1, theme.colors.secondary)}
 								>
 									<Input
+										{...register('cpf')}
 										type='text'
 										id='cpf'
 										maxLength={15}
@@ -202,7 +184,6 @@ export const ModalEditUser = ({ user, isLoading = false, isOpen, onClose }: Moda
 										paddingY={theme.spacings.xsmall}
 										focusBorderColor={theme.colors.primary}
 										autoComplete='off'
-										{...register('cpf')}
 										onKeyDown={(e) => {
 											if (e.key === 'Enter') {
 												formRef.current!.dispatchEvent(
@@ -227,6 +208,7 @@ export const ModalEditUser = ({ user, isLoading = false, isOpen, onClose }: Moda
 									endColor={lighten(0.1, theme.colors.secondary)}
 								>
 									<Input
+										{...register('celular')}
 										type='text'
 										id='celular'
 										placeholder='(xx) xxxxx-xxxx'
@@ -236,7 +218,6 @@ export const ModalEditUser = ({ user, isLoading = false, isOpen, onClose }: Moda
 										paddingY={theme.spacings.xsmall}
 										focusBorderColor={theme.colors.primary}
 										autoComplete='off'
-										{...register('celular')}
 										onKeyDown={(e) => {
 											if (e.key === 'Enter') {
 												formRef.current!.dispatchEvent(
@@ -334,7 +315,12 @@ export const ModalEditUser = ({ user, isLoading = false, isOpen, onClose }: Moda
 					</ModalFooter>
 				</ModalContent>
 			</Modal>
-			<ModalConfirm isOpen={isOpenModalConfirm} onClose={onCloseModalConfirm} name={user!.nome} onConfirm={confirmChangeStatus}/>
+			<ModalConfirm
+				isOpen={isOpenModalConfirm}
+				onClose={onCloseModalConfirm}
+				name={user?.nome}
+				onConfirm={confirmChangeStatus}
+			/>
 		</>
 	)
 }
