@@ -4,7 +4,7 @@ import { User } from "@/types";
 
 export const Create = async (user: Omit<User, 'id'>): Promise<User | Error> => {
 	try {
-		const { data } = await Api.post<User>('/pessoa', { ...user });
+		const { data } = await Api.post<User>('/pessoas', { ...user });
 		return data
 	} catch (error) {
 		const err = error as AxiosError

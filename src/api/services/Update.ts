@@ -4,7 +4,7 @@ import { User } from "@/types";
 
 export const Update = async (id: number, user: Partial<Omit<User, 'id' | 'ativo'>>): Promise<void | Error> => {
 	try {
-		await Api.put(`/pessoa/${id}`, { ...user })
+		await Api.put(`/pessoas/${id}`, { ...user })
 	} catch (error) {
 		const err = error as AxiosError
 		const customError = err?.response?.data;
