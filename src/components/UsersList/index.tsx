@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, memo } from 'react'
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md'
 import { Spinner } from '@chakra-ui/react'
 
@@ -11,7 +11,7 @@ import { UserCard } from '..'
 import { theme } from '../../styles'
 import { useMyContext } from '../../context'
 
-export const UsersList = ({ users, isLoading }: UsersListProps) => {
+const UsersListMemo = ({ users, isLoading }: UsersListProps) => {
 
 	const [usersPaginated, setUsersPaginated] = useState(users);
 	const { showMoreUsers, visibleUsersCount, totalUsers, inputFilterRef } = useMyContext()
@@ -55,3 +55,5 @@ export const UsersList = ({ users, isLoading }: UsersListProps) => {
 		</S.UsersList>
 	)
 }
+
+export const UsersList = memo(UsersListMemo)

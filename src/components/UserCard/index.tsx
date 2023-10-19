@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { memo, useState } from 'react'
 import { PiPencilSimpleBold } from 'react-icons/pi'
 import { useDisclosure } from '@chakra-ui/react'
 
@@ -8,9 +8,11 @@ import { UserCardProps } from './types'
 import * as S from './styles'
 import { theme } from '../../styles'
 import { ModalEditUser } from '..'
+import { User } from '@/types'
 
-export const UserCard = ({ user }: UserCardProps) => {
+const UserCardMemo = ({ user }: UserCardProps) => {
 
+	const [newDataUser, setNewDataUser] = useState<User>();
 	const { isOpen, onClose, onOpen } = useDisclosure()
 
     return (
@@ -18,14 +20,14 @@ export const UserCard = ({ user }: UserCardProps) => {
 			<S.UserCard>
 				<S.TextContainer>
 					<S.Name>
-						{user.nome}
+						{newDataUser ? newDataUser.nome : user.nome}
 					</S.Name>
 					<S.Info>
 						<S.InfoText>
-							CPF: {user.cpf}
+							CPF: {newDataUser ? newDataUser.cpf : user.cpf}
 						</S.InfoText>
 						<S.InfoText>
-							Celular: {user.telefone}
+							Celular: {newDataUser ? newDataUser.telefone : user.telefone}
 						</S.InfoText>
 					</S.Info>
 				</S.TextContainer>
@@ -33,7 +35,14 @@ export const UserCard = ({ user }: UserCardProps) => {
 					<PiPencilSimpleBold color={theme.colors.primary} size={25} title='Editar usuário' onClick={onOpen}/>
 				</S.IconContainer>
 			</S.UserCard>
-			<ModalEditUser isOpen={isOpen} onClose={onClose} user={user}/>
+			<ModalEditUser
+				isOpen={isOpen}
+				onClose={onClose}
+				user={newDataUser ?? user}
+				setNewDataUser={setNewDataUser}
+			/>
 		</>
     )
 }
+
+export const UserCard = memo(UserCardMemo)

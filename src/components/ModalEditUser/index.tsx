@@ -33,7 +33,7 @@ import { EditUserData, Status, useEditUser, useModalEdit } from '../../hooks'
 import { UserServices } from '../../api/services'
 import { ModalConfirm } from '..'
 
-export const ModalEditUser = ({ user, isLoading = false, isOpen, onClose }: ModalEditUserProps) => {
+export const ModalEditUser = ({ user, isLoading = false, isOpen, onClose, setNewDataUser }: ModalEditUserProps) => {
 
 	const [userEdited, setUserEdited] = useState<EditUserData>();
 
@@ -78,6 +78,13 @@ export const ModalEditUser = ({ user, isLoading = false, isOpen, onClose }: Moda
 			return
 		}
 
+		setNewDataUser({
+			nome: data.name,
+			telefone: data.celular,
+			cpf: data.cpf,
+			id: user!.id,
+			ativo: verifySameStatus(data.ativo)
+		})
 		closeModalSuccess(onClose)
 	}
 
@@ -91,11 +98,18 @@ export const ModalEditUser = ({ user, isLoading = false, isOpen, onClose }: Moda
 				return
 			}
 
+			setNewDataUser({
+				nome: userEdited!.name,
+				telefone: userEdited!.celular,
+				cpf: userEdited!.cpf,
+				id: user!.id,
+				ativo: verifySameStatus(userEdited!.ativo)
+			})
 			closeModalSuccess(onCloseModalConfirm)
 		} else {
 			const [userUpdated, userStatusUpdated] = await Promise.all([
 				UserServices.Update(user!.id, { cpf: userEdited?.cpf, nome: userEdited?.name, telefone: userEdited?.celular }),
-				UserServices.UpdateStatus(user!.id, { ativo: userEdited?.ativo === Status.ativar })
+				UserServices.UpdateStatus(user!.id, { ativo: verifySameStatus(userEdited!.ativo) })
 			])
 
 			if (userUpdated instanceof Error || userStatusUpdated instanceof Error) {
@@ -103,6 +117,13 @@ export const ModalEditUser = ({ user, isLoading = false, isOpen, onClose }: Moda
 				return
 			}
 
+			setNewDataUser({
+				nome: userEdited!.name,
+				telefone: userEdited!.celular,
+				cpf: userEdited!.cpf,
+				id: user!.id,
+				ativo: verifySameStatus(userEdited!.ativo)
+			})
 			closeModalSuccess(onCloseModalConfirm)
 		}
 	}

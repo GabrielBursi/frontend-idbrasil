@@ -5,4 +5,5 @@ export type ModalEditUserProps = {
 	onClose: () => void;
     isLoading?: boolean;
 	user: User | undefined;
+	setNewDataUser: React.Dispatch<React.SetStateAction<User | undefined>>;
 }
