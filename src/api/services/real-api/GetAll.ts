@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 import { User } from "@/types";
-import { Api } from "@/api/config";
+import { Api } from "../../config";
 
 export const GetAll = async (): Promise<User[] | Error> => {
 	try {

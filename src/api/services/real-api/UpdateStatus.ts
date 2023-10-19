@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 import { User } from "@/types";
-import { Api } from "@/api/config";
+import { Api } from "../../config";
 
 export const UpdateStatus = async (id: number, user: Pick<User, 'ativo'>): Promise<void | Error> => {
 	try {

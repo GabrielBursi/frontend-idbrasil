@@ -1,7 +1,7 @@
 import React, { ReactNode, createContext, useContext, useRef, useState } from 'react';
-import { User } from '@/types';
-import { UserServices } from '@/api/services';
-import { ENV_VARIABLES } from '@/env';
+import { User } from '../types';
+import { UserServices } from '../api/services';
+import { ENV_VARIABLES } from '../env';
 
 interface UsersContextData {
 	users: User[];

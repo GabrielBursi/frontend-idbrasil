@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Button, Input, InputGroup, InputRightElement, useMediaQuery } from '@chakra-ui/react'
-import { FaFilter, FaSearch, FaTrash } from 'react-icons/fa'
+import { FaSearch, FaTrash } from 'react-icons/fa'
 import { darken } from 'polished'
 
 import * as S from './styles'
@@ -63,7 +63,7 @@ export const FilterInput = () => {
 			</InputGroup>
 			<S.ButtonContainer>
 				<Button
-					leftIcon={<FaFilter />}
+					leftIcon={<FaSearch />}
 					size='lg'
 					fontSize={theme.font.sizes.small}
 					borderColor={theme.colors.primary}
@@ -77,7 +77,7 @@ export const FilterInput = () => {
 					}}
 					w={isMobile ? '100%' : 'auto'}
 				>
-					Filtrar
+					Procurar
 				</Button>
 				<Button
 					leftIcon={<FaTrash />}

@@ -8,7 +8,7 @@ import { UserCardProps } from './types'
 import * as S from './styles'
 import { theme } from '../../styles'
 import { ModalEditUser } from '..'
-import { User } from '@/types'
+import { User } from '../../types'
 
 const UserCardMemo = ({ user }: UserCardProps) => {
 
