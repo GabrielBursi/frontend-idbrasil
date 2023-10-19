@@ -33,6 +33,7 @@ export const TextContainer = styled.div`
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
+		align-items: start;
 		padding: ${theme.spacings.xxsmall};
 		gap: ${theme.spacings.xxsmall};
 	`}
