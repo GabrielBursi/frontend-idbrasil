@@ -29,7 +29,7 @@ export const FilterInput = () => {
 	}
 
 	const clean = () => {
-		if (inputFilterRef.current) {
+		if (inputFilterRef.current && inputFilterRef.current.value.trim() !== '') {
 			inputFilterRef.current.value = '';
 			inputFilterRef.current.focus()
 			getAllUsers()
