@@ -21,6 +21,7 @@ export const Title = styled.h1`
 export const ButtonContainer = styled.div`
 	${({ theme }) => css`
 		display: flex;
+		justify-content: space-between;
 		gap: ${theme.spacings.xxsmall};
 		align-items: center;
 	`}
