@@ -32,7 +32,7 @@ Você pode acessar o repositório no GitHub desse template [por aqui](https://gi
 
 * **Polished**: Esta biblioteca oferece um conjunto de utilitários para manipulação de estilos, facilitando a aplicação de efeitos visuais e garantindo uma aparência consistente.
 
-## Como usar
+## Como usar em produção
 
 1. Digite no terminal o seguinte comando:
 ```bash
@@ -45,6 +45,27 @@ npm run build
 3. Inicie o projeto:
 ```bash
 npm start
+```
+
+## Como usar em desenvolvimento
+
+Infelizmente, a API fornecida pela empresa estava temporariamente indisponível. Para contornar essa situação, optei por implementar uma solução alternativa utilizando o JSON Server.
+
+O JSON Server é uma ferramenta extremamente útil que permite simular uma API RESTful utilizando um arquivo JSON como fonte de dados. Essa abordagem foi adotada para criar uma API falsa, similar à API fornecida pela empresa, permitindo assim a continuidade do desenvolvimento do projeto, apesar da indisponibilidade da API original.
+
+A estrutura da API falsa foi modelada para imitar de perto a API fornecida pela empresa, garantindo que o código desenvolvido seja facilmente integrável quando a API original estiver novamente disponível.
+
+1. Digite no terminal o seguinte comando:
+```bash
+npm i
+```
+2. Inicie o projeto em ambiente de desenvolvimento:
+```bash
+npm run dev
+```
+3. Inicie o server fake:
+```bash
+npm run server
 ```
 
 ## Comandos Específicos
